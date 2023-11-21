@@ -1,48 +1,43 @@
-const form = document.getElementById("form");
-const userData = document.getElementById("table");
+let form=document.getElementById("Form")
+function listener(event){
+    event.preventDefault()
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const dob = document.getElementById("dob").value;
+    const terms = document.getElementById("check").checked;
+  
+    const user = {
+      name,
+      email,
+      password,
+      dob,
+      terms,
+    };
 
-function handleSubmit(event) {
-  event.preventDefault();
-
-  const name = document.getElementById("Name").value;
-  const email = document.getElementById("Email").value;
-  const password = document.getElementById("Password").value;
-  const dob = document.getElementById("dob").value;
-  const terms = document.getElementById("acceptterms").checked;
-
-  const user = {
-    name,
-    email,
-    password,
-    dob,
-    terms,
-  };
-
-  let users = JSON.parse(localStorage.getItem("users")) || [];
-  users.push(user);
-  localStorage.setItem("users", JSON.stringify(users));
-
-  displayUsers();
-  form.reset();
+    let users = JSON.parse(localStorage.getItem("users")) || [];
+    users.push(user);
+    localStorage.setItem("users", JSON.stringify(users));
+  
+    printOnPage();
+    form.reset();
 }
+let table=document.getElementById("table")
+function printOnPage() {
+    table.innerHTML = "";
+    const users = JSON.parse(localStorage.getItem("users")) || [];
 
-function displayUsers() {
-  userData.innerHTML = "";
-  const users = JSON.parse(localStorage.getItem("users")) || [];
-
-  users.forEach((user) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${user.name}</td>
-      <td>${user.email}</td>
-      <td>${user.password}</td>
-      <td>${user.dob}</td>
-      <td>${user.terms ? "true" : "false"}</td>
-    `;
-    userData.appendChild(row);
-  });
+    users.forEach((user) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${user.name}</td>
+          <td>${user.email}</td>
+          <td>${user.password}</td>
+          <td>${user.dob}</td>
+          <td>${user.terms ? "true" : "false"}</td>
+        `;
+        table.appendChild(row);
+      });
 }
-
-form.addEventListener("submit", handleSubmit);
-//localStorage.clear();
-displayUsers();
+form.addEventListener("submit",listener)
+printOnPage()
